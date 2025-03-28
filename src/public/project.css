@@ -55,7 +55,7 @@ h4{
 
 .container{
     height:470px ;
-   background-color: #292929;
+   background-color: #22275b;
    margin-top: 20px;
    display: flex;
 }
@@ -107,7 +107,7 @@ h4{
     width: 150px;
     height: 20px;
     color: white;
-    background-color:#292929 ;
+    background-color:#22275b ;
     border-radius: 12px;
     margin-top: 40px;
     margin-left: 20px;

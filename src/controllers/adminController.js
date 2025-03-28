@@ -574,8 +574,17 @@ const rechargeDuyet = async (req, res) => {
     }
     if (type == 'confirm') {
         await connection.query(`UPDATE recharge SET status = 1 WHERE id = ?`, [id]);
+
         const [info] = await connection.query(`SELECT * FROM recharge WHERE id = ?`, [id]);
-        await connection.query('UPDATE users SET money = money + ?, total_money = total_money + ? WHERE phone = ? ', [info[0].money, info[0].money, info[0].phone]);
+
+        const user = await getUserDataByPhone(info?.[0]?.phone)
+
+        addUserAccountBalance({
+            money: info[0].money,
+            phone: user.phone,
+            invite: user.invite
+        })
+
         return res.status(200).json({
             message: 'Successful application confirmation',
             status: true,
@@ -592,6 +601,41 @@ const rechargeDuyet = async (req, res) => {
         });
     }
 }
+
+const getUserDataByPhone = async (phone) => {
+    let [users] = await connection.query('SELECT `phone`, `code`,`name_user`,`invite` FROM users WHERE `phone` = ? ', [phone]);
+    const user = users?.[0]
+
+
+    if (user === undefined || user === null) {
+        throw Error("Unable to get user data!")
+    }
+
+    return {
+        phone: user.phone,
+        code: user.code,
+        username: user.name_user,
+        invite: user.invite,
+    }
+}
+
+
+const addUserAccountBalance = async ({ money, phone, invite }) => {
+    const user_money = money + (money / 100) * 5
+    const inviter_money = (money / 100) * 5
+
+    await connection.query('UPDATE users SET money = money + ?, total_money = total_money + ? WHERE `phone` = ?', [user_money, user_money, phone]);
+
+    const [inviter] = await connection.query('SELECT phone FROM users WHERE `code` = ?', [invite]);
+
+    if (inviter.length) {
+        console.log(inviter)
+        console.log(inviter_money, inviter_money, invite, inviter?.[0].phone)
+        await connection.query('UPDATE users SET money = money + ?, total_money = total_money + ? WHERE `code` = ? AND `phone` = ?', [inviter_money, inviter_money, invite, inviter?.[0].phone]);
+        console.log("SUCCESSFULLY ADD MONEY TO inviter")
+    }
+}
+
 const updateLevel = async (req, res) => {
     try {
         let id = req.body.id;
@@ -899,7 +943,7 @@ const createBonus = async (req, res) => {
     }
 
     if (!type) {
-        let id_redenvelops = String(timerJoin()) + randomString(16);
+        let id_redenvelops = randomString(16);
         let sql = `INSERT INTO redenvelopes SET id_redenvelope = ?, phone = ?, money = ?, used = ?, amount = ?, status = ?, time = ?`;
         await connection.query(sql, [id_redenvelops, userInfo.phone, money, 1, 1, 0, time]);
         return res.status(200).json({

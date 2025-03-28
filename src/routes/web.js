@@ -9,10 +9,12 @@ import dailyController from '../controllers/dailyController';
 import k5Controller from '../controllers/k5Controller';
 import k3Controller from '../controllers/k3Controller';
 import paymentController from '../controllers/paymentController';
+
 let router = express.Router();
 
 const initWebRouter = (app) => {
     // page account
+    router.get('/keFuMenu', accountController.keFuMenu);
     router.get('/login', accountController.loginPage);
     router.get('/register', accountController.registerPage);
     router.get('/forgot', accountController.forgotPage);
@@ -25,26 +27,34 @@ const initWebRouter = (app) => {
         return res.redirect('/home');
     });
     router.get('/home', homeController.homePage);
-    
+
     router.get('/checkIn', middlewareController, homeController.checkInPage);
+    router.get('/activity', middlewareController, homeController.activityPage);
+    router.get('/dailytask', middlewareController, homeController.dailytaskPage);
+    router.get('/invibonus', middlewareController, homeController.invibonusPage);
+    router.get('/rebate', middlewareController, homeController.rebatePage);
+    router.get('/jackpot', middlewareController, homeController.jackpotPage);
+    router.get('/vip', middlewareController, homeController.vipPage);
     router.get('/checkDes', middlewareController, homeController.checkDes);
     router.get('/checkRecord', middlewareController, homeController.checkRecord);
     router.get('/wallet/transfer', middlewareController, homeController.transfer);
 
     router.get('/promotion', middlewareController, homeController.promotionPage);
+    router.get('/promotion1', middlewareController, homeController.promotion1Page);
     router.get('/promotion/myTeam', middlewareController, homeController.promotionmyTeamPage);
     router.get('/promotion/promotionDes', middlewareController, homeController.promotionDesPage);
+    router.get('/promotion/comhistory', middlewareController, homeController.comhistoryPage);
     router.get('/promotion/tutorial', middlewareController, homeController.tutorialPage);
     router.get('/promotion/bonusrecord', middlewareController, homeController.bonusRecordPage);
 
     router.get('/wallet', middlewareController, homeController.walletPage);
     router.get('/wallet/recharge', middlewareController, homeController.rechargePage);
-    router.get('/wallet/recharge/pay', middlewareController, homeController.rechargeGateway);
-    router.get('/wallet/recharge/pay1', middlewareController, homeController.rechargeGateway1);
     router.get('/wallet/withdrawal', middlewareController, homeController.withdrawalPage);
     router.get('/wallet/rechargerecord', middlewareController, homeController.rechargerecordPage);
     router.get('/wallet/withdrawalrecord', middlewareController, homeController.withdrawalrecordPage);
     router.get('/wallet/addBank', middlewareController, homeController.addBank);
+    router.get('/wallet/transactionhistory', middlewareController, homeController.transactionhistoryPage);
+    
 
     router.get('/wallet/paynow/manual_upi', middlewareController, paymentController.initiateManualUPIPayment);
     router.get('/wallet/paynow/manual_usdt', middlewareController, paymentController.initiateManualUSDTPayment);
@@ -55,8 +65,6 @@ const initWebRouter = (app) => {
     router.get('/wallet/verify/wowpay', middlewareController, paymentController.verifyWowPayPayment);
     router.post('/wallet/paynow/upi', middlewareController, paymentController.initiateUPIPayment);
     router.get('/wallet/verify/upi', middlewareController, paymentController.verifyUPIPayment);
-
-    router.get('/keFuMenu', middlewareController, homeController.keFuMenu);
 
     router.get('/mian', middlewareController, homeController.mianPage);
 
@@ -87,18 +95,16 @@ const initWebRouter = (app) => {
 
     // BET K3
     router.get('/k3', middlewareController, k3Controller.K3Page);
+
     router.post('/api/webapi/action/k3/join', middlewareController, k3Controller.betK3); // register
     router.post('/api/webapi/k3/GetNoaverageEmerdList', middlewareController, k3Controller.listOrderOld); // register
     router.post('/api/webapi/k3/GetMyEmerdList', middlewareController, k3Controller.GetMyEmerdList); // register
 
 
     // login | register 
-    router.get('/aviator', middlewareController, userController.aviator);
-    router.get('/popular', middlewareController, userController.popular);
-    router.get('/lottery', middlewareController, userController.lottery);
-    router.get('/slots', middlewareController, userController.slots);
     router.post('/api/webapi/login', accountController.login); // login
     router.post('/api/webapi/register', accountController.register); // register
+    router.get('/aviator', middlewareController, userController.aviator);
     router.get('/api/webapi/GetUserInfo', middlewareController, userController.userInfo); // get info account
     router.put('/api/webapi/change/userInfo', middlewareController, userController.changeUser); // get info account
     router.put('/api/webapi/change/pass', middlewareController, userController.changePassword); // get info account
@@ -107,6 +113,7 @@ const initWebRouter = (app) => {
     router.post('/api/webapi/action/join', middlewareController, winGoController.betWinGo); // register
     router.post('/api/webapi/GetNoaverageEmerdList', middlewareController, winGoController.listOrderOld); // register
     router.post('/api/webapi/GetMyEmerdList', middlewareController, winGoController.GetMyEmerdList); // register
+
 
     // promotion
     router.post('/api/webapi/promotion', middlewareController, userController.promotion); // register
@@ -117,7 +124,9 @@ const initWebRouter = (app) => {
     router.post('/api/webapi/use/redenvelope', middlewareController, userController.useRedenvelope); // register
 
     // wallet
-    router.post('/api/webapi/recharge', middlewareController, userController.recharge); // register
+    router.post('/api/webapi/recharge', middlewareController, userController.recharge);
+    router.post('/api/webapi/cancel_recharge', middlewareController, userController.cancelRecharge); // register
+    router.post('/wowpay/create', middlewareController, userController.wowpay);
     router.post('/api/webapi/confirm_recharge', middlewareController, userController.confirmRecharge);
     router.get('/api/webapi/myTeam', middlewareController, userController.listMyTeam); // register
     router.get('/api/webapi/recharge/list', middlewareController, userController.listRecharge); // register
@@ -128,6 +137,8 @@ const initWebRouter = (app) => {
     router.post('/api/webapi/recharge/update', middlewareController, userController.updateRecharge); // update recharge
     router.post('/api/webapi/transfer', middlewareController, userController.transfer); // register
     router.get('/api/webapi/transfer_history', middlewareController, userController.transferHistory); //
+    router.get('/api/webapi/confirm_recharge_usdt', middlewareController, userController.confirmUSDTRecharge); //
+    router.post('/api/webapi/confirm_recharge_usdt', middlewareController, userController.confirmUSDTRecharge); //
 
     router.post('/api/webapi/search', middlewareController, userController.search); // register
 

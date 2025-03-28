@@ -58,6 +58,7 @@
                   <th class="text-center">Amount</th>
                   <th class="text-center">Code</th>
                   <th class="text-center">UTR</th>
+                  <th class="text-center">Method</th>
                   <th class="text-center">Time</th>
                   <th class="text-center">Status</th>
                   <!-- <th class="text-center"></th> -->
@@ -93,6 +94,17 @@
     function formateT(params) {
     let result = (params < 10) ? "0" + params : params;
     return result;
+    }
+
+
+    const PaymentMethodsMap = {
+      upi_gateway: "UPI GATEWAY",
+      upi_gatewa: "UPI GATEWAY",
+      upi_manual: "UPI Manual",
+      usdt_manual: "USDT Manual",
+      usdt_manua: "USDT Manual",
+      wow_pay: "WOW Pay",
+      usdt: "USDT",
     }
     
     function timerJoin(params = '', addHours = 0) {
@@ -148,6 +160,9 @@
                   </td>
                   <td style="min-width: 190px;">
                     <b>${data.utr}</b>
+                  </td>
+                  <td style="min-width: 190px;">
+                    <b>${PaymentMethodsMap?.[data.type] ? PaymentMethodsMap?.[data.type] : data.type}</b>
                   </td>
                   <td style="min-width: 190px;">
                     <b>${timerJoin(data.time)}</b>

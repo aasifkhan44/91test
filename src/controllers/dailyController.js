@@ -801,7 +801,7 @@ function timerJoin(params = '', addHours = 0) {
     let ctv = point_list[0];
 
     if (ctv.money - money >= 0) {
-        let id_redenvelops = String(timerJoin()) + randomString(16);
+        let id_redenvelops = randomString(16);
         await connection.execute('UPDATE `point_list` SET money = money - ? WHERE phone = ?', [money ,ctv.phone]);
         let sql = `INSERT INTO redenvelopes SET id_redenvelope = ?, phone = ?, money = ?, used = ?, amount = ?, status = ?, time = ?`;
         await connection.query(sql, [id_redenvelops, userInfo.phone, money, 1, 1, 0, time]);

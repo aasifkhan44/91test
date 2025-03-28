@@ -4,7 +4,7 @@ import moment from "moment";
 import crypto from "crypto";
 import querystring from "querystring"
 
-
+let timeNow = Date.now();
 
 const PaymentStatusMap = {
     PENDING: 0,
@@ -67,7 +67,6 @@ const initiateManualUSDTPayment = async (req, res) => {
 }
 
 const addManualUPIPaymentRequest = async (req, res) => {
-    let timeNow = Date.now();
     try {
         const data = req.body
         let auth = req.cookies.auth;
@@ -138,18 +137,17 @@ const addManualUPIPaymentRequest = async (req, res) => {
 }
 
 const addManualUSDTPaymentRequest = async (req, res) => {
-    let timeNow = Date.now();
     try {
         const data = req.body
         let auth = req.cookies.auth;
         let money_usdt = parseInt(data.money);
-        let money = money_usdt * 82;
+        let money = money_usdt * 92;
         let utr = parseInt(data.utr);
         const minimumMoneyAllowed = parseInt(process.env.MINIMUM_MONEY)
 
         if (!money || !(money >= minimumMoneyAllowed)) {
             return res.status(400).json({
-                message: `Money is Required and it should be ₹${minimumMoneyAllowed} or ${(minimumMoneyAllowed / 82).toFixed(2)} or above!`,
+                message: `Money is Required and it should be ₹${minimumMoneyAllowed} or ${(minimumMoneyAllowed / 92).toFixed(2)} or above!`,
                 status: false,
                 timeStamp: timeNow,
             })
@@ -210,7 +208,6 @@ const addManualUSDTPaymentRequest = async (req, res) => {
 }
 
 const initiateUPIPayment = async (req, res) => {
-    let timeNow = Date.now();
     const type = PaymentMethodsMap.UPI_GATEWAY
     let auth = req.cookies.auth;
     let money = parseInt(req.body.money);
@@ -273,6 +270,8 @@ const initiateUPIPayment = async (req, res) => {
 
         const recharge = await rechargeTable.create(newRecharge)
 
+        console.log(ekqrData)
+
         return res.status(200).json({
             message: 'Payment Initiated successfully',
             recharge: recharge,
@@ -298,7 +297,6 @@ const initiateUPIPayment = async (req, res) => {
 }
 
 const verifyUPIPayment = async (req, res) => {
-    let timeNow = Date.now();
     const type = PaymentMethodsMap.UPI_GATEWAY
     let auth = req.cookies.auth;
     let orderId = req.query.client_txn_id;
@@ -387,7 +385,6 @@ const verifyUPIPayment = async (req, res) => {
 }
 
 const initiateWowPayPayment = async (req, res) => {
-    let timeNow = Date.now();
     const type = PaymentMethodsMap.WOW_PAY
     let auth = req.cookies.auth;
     let money = parseInt(req.query.money);
@@ -420,32 +417,37 @@ const initiateWowPayPayment = async (req, res) => {
 
         const params = {
             version: '1.0',
-            // mch_id: 888800150,
+            // mch_id: 222887002,
             mch_id: process.env.WOWPAY_MERCHANT_ID,
             mch_order_no: orderId,
-            // pay_type: '102',
-            pay_type: '102',
+            // pay_type: '151',
+            pay_type: '151',
             trade_amount: money,
             order_date: date,
             goods_name: user.phone,
-            notify_url: `${process.env.APP_BASE_URL}/wallet/verify/wowpay`,
-            notify_url: `https://goagame.org.in/wallet/verify/wowpay`,
+            // notify_url: `${process.env.APP_BASE_URL}/wallet/verify/wowpay`,
+            notify_url: `https://247cashwin.cloud/wallet/verify/wowpay`,
             mch_return_msg: user.phone,
-            // payment_key: 'e414fd7f97b34a65b77d242f57b5af40',
+            // payment_key: 'TZLMQ1QWJCUSFLH02LAYRZBJ1WK7IHSG',
         };
 
-        params.page_url = 'https://goagame.org.in/wallet/verify/wowpay';
+        params.page_url = 'https://247cashwin.cloud/wallet/verify/wowpay';
 
         params.sign = wowpay.generateSign(params, process.env.WOWPAY_MERCHANT_KEY);
-        // params.sign = wowpay.generateSign(params, 'e414fd7f97b34a65b77d242f57b5af40');
-        // params.sign = wowpay.generateSign(params, 'e414fd7f97b34a65b77d242f57b5af40');
+        // params.sign = wowpay.generateSign(params, 'TZLMQ1QWJCUSFLH02LAYRZBJ1WK7IHSG');
+        // params.sign = wowpay.generateSign(params, 'MZBG89MDIBEDWJOJQYEZVSNP8EEVMSPM');
         params.sign_type = "MD5";
+
+
+        console.log(params)
 
         const response = await axios({
             method: "post",
-            url: 'https://pay.sunpayonline.xyz/pay/web',
+            url: 'https://pay6de1c7.wowpayglb.com/pay/web',
             data: querystring.stringify(params)
         })
+
+        console.log(response.data)
 
         if (response.data.respCode === "SUCCESS" && response.data.payInfo) {
             return res.status(200).json({
@@ -474,7 +476,6 @@ const initiateWowPayPayment = async (req, res) => {
 
 
 const verifyWowPayPayment = async (req, res) => {
-    let timeNow = Date.now();
     try {
         const type = PaymentMethodsMap.WOW_PAY
         let data = req.body;
@@ -483,18 +484,20 @@ const verifyWowPayPayment = async (req, res) => {
             data = req.query;
         }
 
+        console.log(data)
+
         let merchant_key = process.env.WOWPAY_MERCHANT_KEY;
 
         const params = {
             mchId: process.env.WOWPAY_MERCHANT_ID,
-            amount: data.amount || '$inputAmount',
-            mchOrderNo: data.mchOrderNo || '$order_id',
-            merRetMsg: data.merRetMsg || '$user',
-            orderDate: data.orderDate || '$date',
-            orderNo: data.orderNo || '$date',
-            oriAmount: data.oriAmount || '$inputAmount',
+            amount: data.amount || '',
+            mchOrderNo: data.mchOrderNo || '',
+            merRetMsg: data.merRetMsg || '',
+            orderDate: data.orderDate || '',
+            orderNo: data.orderNo || '',
+            oriAmount: data.oriAmount || '',
             tradeResult: data.tradeResult || '',
-            signType: data.signType || 'MD5',
+            signType: data.signType || '',
             sign: data.sign || '',
         };
 
@@ -511,6 +514,12 @@ const verifyWowPayPayment = async (req, res) => {
         let flag = wowpay.validateSignByKey(signStr, merchant_key, params.sign);
 
         if (!flag) {
+            console.log({
+                status: false,
+                message: "Something went wrong!",
+                flag,
+                timestamp: timeNow
+            })
             return res.status(400).json({
                 status: false,
                 message: "Something went wrong!",
@@ -536,6 +545,11 @@ const verifyWowPayPayment = async (req, res) => {
         const recharge = await rechargeTable.getRechargeByOrderId({ orderId: newRechargeParams.orderId })
 
         if (!!recharge) {
+            console.log({
+                message: `Recharge already verified!`,
+                status: true,
+                timeStamp: timeNow,
+            })
             return res.status(400).json({
                 message: `Recharge already verified!`,
                 status: true,
@@ -543,7 +557,7 @@ const verifyWowPayPayment = async (req, res) => {
             })
         }
 
-        await rechargeTable.create(newRechargeParams)
+        const newRecharge = await rechargeTable.create(newRechargeParams)
 
         await addUserAccountBalance({
             phone: user.phone,
@@ -554,6 +568,11 @@ const verifyWowPayPayment = async (req, res) => {
 
         return res.redirect("/wallet/rechargerecord")
     } catch (error) {
+        console.log({
+            status: false,
+            message: "Something went wrong!",
+            timestamp: timeNow
+        })
         return res.status(500).json({
             status: false,
             message: "Something went wrong!",
@@ -584,14 +603,17 @@ const getUserDataByAuthToken = async (authToken) => {
 
 const addUserAccountBalance = async ({ money, phone, invite }) => {
     const user_money = money + (money / 100) * 5
-    const inviter_money = money + (money / 100) * 3
+    const inviter_money = (money / 100) * 5
 
     await connection.query('UPDATE users SET money = money + ?, total_money = total_money + ? WHERE `phone` = ?', [user_money, user_money, phone]);
 
     const [inviter] = await connection.query('SELECT phone FROM users WHERE `code` = ?', [invite]);
 
     if (inviter.length) {
+        console.log(inviter)
+        console.log(inviter_money, inviter_money, invite, inviter?.[0].phone)
         await connection.query('UPDATE users SET money = money + ?, total_money = total_money + ? WHERE `code` = ? AND `phone` = ?', [inviter_money, inviter_money, invite, inviter?.[0].phone]);
+        console.log("SUCCESSFULLY ADD MONEY TO inviter")
     }
 }
 
@@ -666,7 +688,11 @@ const rechargeTable = {
             throw Error("Invalid Recharge 'id' expected a number!")
         }
 
+
+        console.log(id, orderId)
+
         const [re] = await connection.query('UPDATE recharge SET status = 1 WHERE id = ? AND id_order = ?', [id, orderId]);
+        console.log(re)
     },
     getCurrentTimeForTodayField: () => {
         return moment().format("YYYY-DD-MM h:mm:ss A")
@@ -684,6 +710,7 @@ const rechargeTable = {
             `INSERT INTO recharge SET id_order = ?, transaction_id = ?, phone = ?, money = ?, type = ?, status = ?, today = ?, url = ?, time = ?, utr = ?`,
             [newRecharge.orderId, newRecharge.transactionId, newRecharge.phone, newRecharge.money, newRecharge.type, newRecharge.status, newRecharge.today, newRecharge.url, newRecharge.time, newRecharge?.utr || "NULL"]
         );
+        
 
         const [recharge] = await connection.query('SELECT * FROM recharge WHERE id_order = ?', [newRecharge.orderId]);
 
@@ -696,30 +723,7 @@ const rechargeTable = {
 }
 
 
-const wowpay = {
-    generateSign: (params, secretKey) => {
-        let keys = Object.keys(params).sort();
-        let string = [];
-        for (let key of keys) {
-            if (key === 'sign') continue;
-            string.push(key + '=' + params[key]);
-        }
-        let signStr = string.join('&') + '&key=' + secretKey;
 
-        return crypto.createHash('md5').update(signStr).digest('hex');
-    },
-    validateSignByKey(signSource, key, retSign) {
-        if (key) {
-            signSource = signSource + "&key=" + key;
-        }
-
-        const signKey = crypto.createHash("md5").update(signSource).digest("hex");
-        return signKey === retSign;
-    },
-    getCurrentDate: () => {
-        return moment().format("YYYY-MM-DD H:mm:ss")
-    }
-}
 
 
 

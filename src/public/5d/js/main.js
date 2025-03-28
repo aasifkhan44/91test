@@ -22,8 +22,6 @@ socket.on("data-server-5d", function (msg) {
                 showMeJoin();
                 animationNewPar(Result.result);
             }
-
-            handleMyEmerdList()
             $('#period').text(notResult.period);
             $("#previous").addClass("block-click");
             $("#previous").removeClass("action");
@@ -331,7 +329,7 @@ function cownDownTimer() {
                 }
             }
         }
-
+        
         if (minute == (checkData - 1) && seconds1 == 5 && seconds2 >= 9) {
             if (clicked) {
                 if (check_volume == 'on') {
@@ -344,7 +342,7 @@ function cownDownTimer() {
 
 cownDownTimer();
 
-$('.item-volume').click(function (e) {
+$('.item-volume').click(function (e) { 
     e.preventDefault();
     const check_volume = localStorage.getItem('volume');
     if (check_volume == 'on') {
@@ -550,31 +548,31 @@ $('.foot .right').click(function (e) {
 function formateT(params) {
     let result = (params < 10) ? "0" + params : params;
     return result;
-}
-
-function timerJoin(params = '', addHours = 0) {
-    let date = '';
-    if (params) {
-        date = new Date(Number(params));
-    } else {
-        date = new Date();
     }
-
-    date.setHours(date.getHours() + addHours);
-
-    let years = formateT(date.getFullYear());
-    let months = formateT(date.getMonth() + 1);
-    let days = formateT(date.getDate());
-
-    let hours = date.getHours() % 12;
-    hours = hours === 0 ? 12 : hours;
-    let ampm = date.getHours() < 12 ? "AM" : "PM";
-
-    let minutes = formateT(date.getMinutes());
-    let seconds = formateT(date.getSeconds());
-
-    return years + '-' + months + '-' + days + ' ' + hours + ':' + minutes + ':' + seconds + ' ' + ampm;
-}
+    
+function timerJoin(params = '', addHours = 0) {
+        let date = '';
+        if (params) {
+            date = new Date(Number(params));
+        } else {
+            date = new Date();
+        }
+    
+        date.setHours(date.getHours() + addHours);
+    
+        let years = formateT(date.getFullYear());
+        let months = formateT(date.getMonth() + 1);
+        let days = formateT(date.getDate());
+    
+        let hours = date.getHours() % 12;
+        hours = hours === 0 ? 12 : hours;
+        let ampm = date.getHours() < 12 ? "AM" : "PM";
+    
+        let minutes = formateT(date.getMinutes());
+        let seconds = formateT(date.getSeconds());
+    
+        return years + '-' + months + '-' + days + ' ' + hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+    }
 
 
 function isNumber(params) {
@@ -734,79 +732,6 @@ function callAjaxMeJoin() {
     });
 }
 
-function handleMyEmerdList() {
-    $.ajax({
-        type: "POST",
-        url: "/api/webapi/5d/GetMyEmerdList",
-        data: {
-            gameJoin: $('html').attr('data-dpr'),
-            pageno: "0",
-            pageto: "10",
-        },
-        dataType: "json",
-        success: function (response) {
-            let data = response.data.gameslist;
-            $("#number_result").text("1/" + response.page);
-            GetMyEmerdList(data);
-            $('.Loading').fadeOut(0);
-
-            let firstGame = data[0];
-
-            const displayResultHandler = ({ status, amount }) => {
-                let modal = document.getElementById("result_modal");
-                let modalAmount = document.getElementById("modal_amount");
-
-                modal.classList.add("open")
-                if (status?.toLowerCase() === "win") {
-                    modal.classList.add("win")
-                    modalAmount.innerText = `+${amount}`
-                } else {
-                    modal.classList.add("loss")
-                    modalAmount.innerText = `-${amount}`
-                }
-            }
-
-
-            // Nested AJAX call
-            $.ajax({
-                type: "POST",
-                url: "/api/webapi/5d/GetNoaverageEmerdList",
-                data: {
-                    gameJoin: $('html').attr('data-dpr'),
-                    pageno: "0",
-                    pageto: "10",
-                },
-                dataType: "json",
-                success: function (response) {
-                    let list_orders = response.data.gameslist;
-
-                    console.log(firstGame)
-                    console.log(firstGame.stage)
-                    console.log(list_orders[1].period)
-
-                    // Assuming firstGame is defined somewhere in your code
-                    if (firstGame && firstGame.stage === list_orders[1].period) {
-                        if (firstGame.get == 0) {
-                            displayResultHandler({
-                                status: "loss",
-                                amount: firstGame.money
-                            })
-                        } else {
-                            displayResultHandler({
-                                status: "win",
-                                amount: firstGame.get
-                            })
-                        }
-                    }
-                },
-            });
-
-
-        },
-    });
-}
-
-
 async function showMeJoin() {
     await callAjaxMeJoin();
     setTimeout(() => {
@@ -899,7 +824,7 @@ $("#next").click(function (e) {
                         e.preventDefault();
                         $(this).find('.details').toggleClass("display-none");
                     });
-
+            
                     $('.copy-to-img').click(function (e) {
                         e.preventDefault();
                         var copyText = $(this).attr('data-clipboard-text');
@@ -962,7 +887,7 @@ $("#previous").click(function (e) {
                         e.preventDefault();
                         $(this).find('.details').toggleClass("display-none");
                     });
-
+            
                     $('.copy-to-img').click(function (e) {
                         e.preventDefault();
                         var copyText = $(this).attr('data-clipboard-text');
@@ -975,19 +900,19 @@ $("#previous").click(function (e) {
     });
 });
 
-$('.circular, #quytacs').click(function (e) {
+$('.circular, #quytacs').click(function (e) { 
     e.preventDefault();
     $('.supportss').fadeIn();
     $('.van-overlay').fadeIn();
     $('body').addClass('van-overflow-hidden');
 });
 
-$('.submit-support').click(function (e) {
+$('.submit-support').click(function (e) { 
     e.preventDefault();
     downAndHidden();
 });
 
-$('#game-join .item').click(async function (e) {
+$('#game-join .item').click(async function (e) { 
     e.preventDefault();
     let game = $(this).attr('game');
     $('html').attr('data-dpr', game);

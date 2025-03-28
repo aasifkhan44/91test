@@ -24,6 +24,7 @@ const cronJobGame1p = (io) => {
         const data3 = k3; // Cầu mới chưa có kết quả
         io.emit('data-server-k3', { data: data3, 'game': '1' });
     });
+
     cron.schedule('*/3 * * * *', async() => {
         await winGoController.addWinGo(3);
         await winGoController.handlingWinGo1P(3);
@@ -43,6 +44,7 @@ const cronJobGame1p = (io) => {
         const data3 = k3; // Cầu mới chưa có kết quả
         io.emit('data-server-k3', { data: data3, 'game': '3' });
     });
+
     cron.schedule('*/5 * * * *', async() => {
         await winGoController.addWinGo(5);
         await winGoController.handlingWinGo1P(5);
@@ -62,6 +64,7 @@ const cronJobGame1p = (io) => {
         const data3 = k3; // Cầu mới chưa có kết quả
         io.emit('data-server-k3', { data: data3, 'game': '5' });
     });
+    
     cron.schedule('*/10 * * * *', async() => {
         await winGoController.addWinGo(10);
         await winGoController.handlingWinGo1P(10);
@@ -83,9 +86,10 @@ const cronJobGame1p = (io) => {
         io.emit('data-server-k3', { data: data3, 'game': '10' });
     });
 
-    cron.schedule('* * 0 * * *', async() => {
+    cron.schedule('0 1 * * *', async() => {
         await connection.execute('UPDATE users SET roses_today = ?', [0]);
         await connection.execute('UPDATE point_list SET money = ?', [0]);
+        await connection.execute('UPDATE turn_over SET daily_turn_over = ?', [0]);
     });
 }
 

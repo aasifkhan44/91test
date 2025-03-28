@@ -78,7 +78,7 @@ const login = async (req, res) => {
                 }, process.env.JWT_ACCESS_TOKEN, { expiresIn: "1d" });
                 await connection.execute('UPDATE `users` SET `token` = ? WHERE `phone` = ? ', [md5(accessToken), username]);
                 return res.status(200).json({
-                    message: 'Login Sucess',
+                    message: 'Login Successfully!',
                     status: true,
                     token: accessToken,
                     value: md5(accessToken)
@@ -162,6 +162,9 @@ const register = async (req, res) => {
                         }
                     }
 
+
+                    let sql4 = 'INSERT INTO turn_over SET phone = ?, code = ?, invite = ?';
+                    await connection.query(sql4, [username, code, invitecode]);
 
                     return res.status(200).json({
                         message: "Registered successfully",
@@ -336,7 +339,31 @@ const forGotPassword = async (req, res) => {
 
 }
 
+const keFuMenu = async(req, res) => {
+    let auth = req.cookies.auth;
 
+    const [users] = await connection.query('SELECT `level`, `ctv` FROM users WHERE token = ?', [auth]);
+
+    let telegram = '';
+    if (users.length == 0) {
+        let [settings] = await connection.query('SELECT `telegram`, `cskh` FROM admin');
+        telegram = settings[0].telegram;
+    } else {
+        if (users[0].level != 0) {
+            var [settings] = await connection.query('SELECT * FROM admin');
+        } else {
+            var [check] = await connection.query('SELECT `telegram` FROM point_list WHERE phone = ?', [users[0].ctv]);
+            if (check.length == 0) {
+                var [settings] = await connection.query('SELECT * FROM admin');
+            } else {
+                var [settings] = await connection.query('SELECT `telegram` FROM point_list WHERE phone = ?', [users[0].ctv]);
+            }
+        }
+        telegram = settings[0].telegram;
+    }
+    
+    return res.render("keFuMenu.ejs", {telegram}); 
+}
 
 
 module.exports = {
@@ -347,5 +374,6 @@ module.exports = {
     forgotPage,
     verifyCode,
     verifyCodePass,
-    forGotPassword
+    forGotPassword,
+    keFuMenu
 }

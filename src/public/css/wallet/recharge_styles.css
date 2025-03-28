@@ -2,7 +2,7 @@ html,
 body {
     height: 100%;
     width: 100%;
-    background-color: #9195a3;
+    background-color: #090909;
     padding: 0;
     margin: 0;
 }
@@ -13,7 +13,7 @@ body {
 
 .mian[data-v-67caa467] {
     padding-bottom: 1.6rem;
-    background-color: #ffffff
+    background-color: #22275b
 }
 
 .mian[data-v-67caa467] .van-popup__close-icon--top-right {
@@ -28,12 +28,12 @@ body {
 .mian .selectBox .colorBox[data-v-67caa467] {
     height: 1.06667rem;
     width: 100%;
-    /* background: -webkit-linear-gradient(left, #C4933F 0%, #FAE59F 100%);
-    background: linear-gradient(90deg, #C4933F 0%, #FAE59F 100%) */
+    background: -webkit-linear-gradient(left, #61a9ff 0%, #59b0ea 100%);
+    background: linear-gradient(90deg, #61a9ff 0%, #59b0ea 100%)
 }
 
 .mian .selectBox .txtBox[data-v-67caa467] {
-    background-color: #ffffff;
+    background-color: #22275b;
     z-index: 99;
     margin-top: -.8rem;
     border-radius: .26667rem .26667rem 0 0;
@@ -42,12 +42,12 @@ body {
 }
 
 .mian .selectBox .txtBox .txt[data-v-67caa467] {
-    color: #161616;
+    color: #ffffff;
     font-size: .42667rem
 }
 
 .mian .selectBox .txtBox .money[data-v-67caa467] {
-    color: #1d1d1d;
+    color: #2aaaf3;
     font-weight: 600;
     font-size: .58667rem
 }
@@ -220,7 +220,7 @@ body {
 
 .mian .selectBox .pay-box[data-v-67caa467] {
     padding: 0 .53333rem;
-    color: #161616
+    color: #ffffff
 }
 
 .mian .selectBox .pay-box .title[data-v-67caa467] {
@@ -297,17 +297,15 @@ body {
     margin-bottom: .26667rem;
     width: 31%;
     margin-left: 3%;
-    background: linear-gradient(90deg, #ffff, #fff);
+    background: linear-gradient(180deg, #4675d2 0%, #374992 100%);
     border-radius: .26667rem;
     overflow: hidden
-    border-style: solid;
-    box-shadow: 1px 1px 50px #e3dfde;
 }
 
 .mian .selectBox .pay-box .list .item .img[data-v-67caa467] {
     margin: 0 auto .13333rem;
     width: .53333rem;
-    height: .53333rem;
+    height: .53333rem
 }
 
 .mian .selectBox .pay-box .list .item .txt[data-v-67caa467] {
@@ -317,39 +315,18 @@ body {
 }
 
 .mian .selectBox .pay-box .list .item .name[data-v-67caa467] {
-    color: black;
-    font-size: .30333rem;
-    font-weight: 500;
-    letter-spacing: 0.2px;
+    color: #414141;
+    font-size: .37333rem
 }
-
-@keyframes blinker {
-    0% {
-        color: #ffffffff;
-    }
-
-    50% {
-        color: #ffffff56;
-    }
-
-    100% {
-        color: #ffffffff;
-    }
-}
-
 
 .mian .selectBox .pay-box .list .item[data-v-67caa467]:nth-child(3n+1) {
     margin-left: 0
 }
 
 .mian .selectBox .pay-box .list .item.action[data-v-67caa467] {
-    background: -webkit-linear-gradient(right, #02147e 0%, #0390ee 100%);
-    background: linear-gradient(45deg, #fb7872 0%, #fc6c6c 100%);
+    background: -webkit-linear-gradient(right, #2979f2 0%, #2aaaf3 100%);
+    background: linear-gradient(270deg, #2979f2 0%, #2aaaf3 100%);
     position: relative
-}
-
-.mian .selectBox .pay-box .list .item.action .name[data-v-67caa467] {
-    animation: 2s infinite blinker;
 }
 
 .mian .selectBox .pay-box .list .item.action .icon[data-v-67caa467] {
@@ -371,21 +348,18 @@ body {
 }
 
 .mian .selectBox .pay-box .list .li[data-v-67caa467] {
-    /* border: .05333rem solid #3f3f3f; */
+    border: .05333rem solid #2b3270;
     margin-bottom: .26667rem;
     padding: .26667rem;
     text-align: center;
     width: 30%;
-    background: linear-gradient(90deg, #fb7872,);
-    
+    background: linear-gradient(180deg, #4675d2 0%, #374992 100%);
+    box-shadow: 0 .18667rem .50667rem 0 rgba(143, 139, 139, .11);
     margin-right: .26667rem;
     height: 1.06667rem;
     line-height: .53333rem;
     border-radius: .13333rem;
-    font-size: .4rem;
-    color: black;
-    font-weight: 600;
-    box-shadow: 1px 1px 50px #e3dfde;
+    font-size: .4rem
 }
 
 .mian .selectBox .pay-box .list .li[data-v-67caa467]:nth-child(3n) {
@@ -393,12 +367,8 @@ body {
 }
 
 .mian .selectBox .pay-box .list .li.action[data-v-67caa467] {
-    /* border-color: #01085e; */
-    background: #02147e;
-    background: -webkit-linear-gradient(right, #02147e 0%, #0390ee 100%);
-    background: linear-gradient(45deg, #fb7872 0%, #fc6c6c 100%);
-    color: #f5f5f5;
-    font-weight: 600;
+    border-color: #2aaaf3;
+    color: #2aaaf3
 }
 
 .mian .selectBox .pay-box .info .tit[data-v-67caa467] {
@@ -467,7 +437,7 @@ body {
 .mian .selectBox .pay-box .des[data-v-67caa467] {
     margin-bottom: .26667rem;
     font-size: .34667rem;
-    color: #161616;
+    color: #2aaaf3;
     line-height: .4rem
 }
 
@@ -3042,7 +3012,7 @@ ul {
     color: #323233;
     font-size: .37333rem;
     line-height: .64rem;
-    background-color: #ffffff;
+    background-color: #22275b
 }
 
 .van-cell:after {
@@ -3295,7 +3265,7 @@ ul {
     min-width: 0;
     margin: 0;
     padding: 0;
-    color: #161616;
+    color: #2aaaf3;
     line-height: inherit;
     text-align: left;
     background-color: transparent;
@@ -3304,15 +3274,15 @@ ul {
 }
 
 .van-field__control::-webkit-input-placeholder {
-    color: #161616
+    color: #2aaaf3
 }
 
 .van-field__control::placeholder {
-    color: #161616b3
+    color: #2aaaf3b3
 }
 
 .van-field__control:disabled {
-    color: #161616b3;
+    color: #2aaaf3b3;
     background-color: transparent;
     cursor: not-allowed;
     opacity: 1;
@@ -4341,9 +4311,9 @@ ul {
     left: 50%;
     width: 100%;
     height: 100%;
-    background-color: #fc6c6c;
+    background-color: #000;
     border: inherit;
-    border-color: #fb7872;
+    border-color: #000;
     border-radius: inherit;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -4362,9 +4332,9 @@ ul {
 
 .van-button--default {
     border: none;
-    color: #fc6c6c;
-    background: linear-gradient(top, #02147e 0%, #0390ee 100%);
-    background: linear-gradient(45deg, #02147e 0%, #0390ee 100%);
+    color: #ffffff;
+    background: -webkit-linear-gradient(top, #2979f2 0%, #2aaaf3 100%);
+    background: linear-gradient(180deg, #2979f2 0%, #2aaaf3 100%)
 }
 
 .van-button--primary {
@@ -7796,7 +7766,7 @@ ul {
     flex-direction: column;
     align-items: center;
     max-width: 290px;
-    background: #3a3a3a;
+    background: #1e234d;
 }
 
 .previous_payment_popup_message {
@@ -7821,8 +7791,8 @@ ul {
     justify-content: center;
     display: flex;
     width: 100%;
-    background: #161616;
-    background: linear-gradient(180deg, #ffe89b 0%, #c4933f 100%);
+    background: #ffffff;
+    background: linear-gradient(180deg, #ffe89b 0%, #61a9ff 100%);
     color: white;
 }
 

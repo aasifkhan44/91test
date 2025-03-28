@@ -158,8 +158,8 @@ $.ajax({
             myModalheader.innerHTML = "Try Again";
             myModal_result.innerHTML = "LOSS :" + firstGame.money;
         } else {
-            myModalheader.innerHTML = "Congratulations";
-            myModal_result.innerHTML = "Bonus :" + firstGame.get;
+            myModalheader.innerHTML = "congratulations";
+            myModal_result.innerHTML = "WIN :" + firstGame.get;
         }
         myModal_result_Period.innerHTML = "Period : 3min " + firstGame.stage;
         
@@ -1634,5 +1634,5 @@ function timerJoin(params = '', addHours = 0) {
   console.log(selectPageTime - 1);
   $(`.game-betting .box .item:eq(${selectPageTime - 1})`).addClass('action');
   $(`.game-betting .box .item:eq(${selectPageTime - 1}) .img`).addClass('block-click');
-  $(`.game-betting .box .item .img .van-image img`).attr('src', '/images/icon_clock-gerrn.webp');
-  $(`.game-betting .box .item:eq(${selectPageTime - 1}) .img .van-image img`).attr('src', '/images/icon_clock-red.webp');
+  $(`.game-betting .box .item .img .van-image img`).attr('src', '/images/icon_clock-gerrn.svg');
+  $(`.game-betting .box .item:eq(${selectPageTime - 1}) .img .van-image img`).attr('src', '/images/icon_clock-red.svg');

@@ -152,8 +152,8 @@ $.ajax({
             myModalheader.innerHTML = "Try Again";
             myModal_result.innerHTML = "LOSS :" + firstGame.money;
         } else {
-            myModalheader.innerHTML = "Congratulations";
-            myModal_result.innerHTML = "Bonus "+ firstGame.get; ".00"
+            myModalheader.innerHTML = "congratulations";
+            myModal_result.innerHTML = "WIN :" + firstGame.get;
         }
         myModal_result_Period.innerHTML = "Period : 1min " + firstGame.stage;
         
@@ -167,9 +167,9 @@ $.ajax({
         }
 
         if (firstGame.result == 0) {
-            color = "Red  Violet";
+            color = "Red + Violet";
         } else if (firstGame.result == 5) {
-            color = "Green  Violet";
+            color = "Green + Violet";
         } else if (firstGame.result % 2 == 0) {
             color = "Red";
         } else {
@@ -1631,5 +1631,5 @@ let selectPageTime = Number($('html').attr("data-dpr"));
 console.log(selectPageTime - 1);
 $(`.game-betting .box .item:eq(${selectPageTime - 1})`).addClass('action');
 $(`.game-betting .box .item:eq(${selectPageTime - 1}) .img`).addClass('block-click');
-$(`.game-betting .box .item .img .van-image img`).attr('src', '/images/icon_clock-gerrn.webp');
-$(`.game-betting .box .item:eq(${selectPageTime - 1}) .img .van-image img`).attr('src', '/images/icon_clock-red.webp');
+$(`.game-betting .box .item .img .van-image img`).attr('src', '/images/icon_clock-gerrn.svg');
+$(`.game-betting .box .item:eq(${selectPageTime - 1}) .img .van-image img`).attr('src', '/images/icon_clock-red.svg');

@@ -1,8 +1,7 @@
 import connection from "../config/connectDB";
 import jwt from 'jsonwebtoken'
 import md5 from "md5";
-import e from "express";
-require('dotenv').config();
+// import e from "express";
 
 const homePage = async (req, res) => {
     const [settings] = await connection.query('SELECT `app` FROM admin');
@@ -10,12 +9,32 @@ const homePage = async (req, res) => {
     return res.render("home/index.ejs", { app });
 }
 
-const checkInPage = async (req, res) => {
-    return res.render("checkIn/checkIn.ejs");
+const activityPage = async (req, res) => {
+    return res.render("checkIn/activity.ejs");
 }
 
-const spleshPage = async (req, res) => {
-    return res.render("splesh/splashscreen.ejs");
+const rebatePage = async (req, res) => {
+    return res.render("checkIn/rebate.ejs");
+}
+
+const vipPage = async (req, res) => {
+    return res.render("checkIn/vip.ejs");
+}
+
+const jackpotPage = async (req, res) => {
+    return res.render("checkIn/jackpot.ejs");
+}
+
+const dailytaskPage = async (req, res) => {
+    return res.render("checkIn/dailytask.ejs");
+}
+
+const invibonusPage = async (req, res) => {
+    return res.render("checkIn/invibonus.ejs");
+}
+
+const checkInPage = async (req, res) => {
+    return res.render("checkIn/checkIn.ejs");
 }
 
 const checkDes = async (req, res) => {
@@ -35,12 +54,20 @@ const promotionPage = async (req, res) => {
     return res.render("promotion/promotion.ejs");
 }
 
+const promotion1Page = async (req, res) => {
+    return res.render("promotion/promotion1.ejs");
+}
+
 const promotionmyTeamPage = async (req, res) => {
     return res.render("promotion/myTeam.ejs");
 }
 
 const promotionDesPage = async (req, res) => {
     return res.render("promotion/promotionDes.ejs");
+}
+
+const comhistoryPage = async (req, res) => {
+    return res.render("promotion/comhistory.ejs");
 }
 
 const tutorialPage = async (req, res) => {
@@ -52,6 +79,13 @@ const bonusRecordPage = async (req, res) => {
 }
 
 // wallet
+
+
+const transactionhistoryPage = async (req, res) => {
+    return res.render("wallet/transactionhistory.ejs");
+}
+
+
 const walletPage = async (req, res) => {
     return res.render("wallet/index.ejs");
 }
@@ -60,12 +94,6 @@ const rechargePage = async (req, res) => {
     return res.render("wallet/recharge.ejs", {
         MinimumMoney: process.env.MINIMUM_MONEY
     });
-}
-const rechargeGateway = async (req, res) => {
-    return res.render("wallet/pay.ejs");
-}
-const rechargeGateway1 = async (req, res) => {
-    return res.render("wallet/pay1.ejs");
 }
 
 const rechargerecordPage = async (req, res) => {
@@ -87,10 +115,11 @@ const transfer = async (req, res) => {
 const mianPage = async (req, res) => {
     let auth = req.cookies.auth;
     const [user] = await connection.query('SELECT `level` FROM users WHERE `token` = ? ', [auth]);
+    const [settings] = await connection.query('SELECT `cskh` FROM admin');
+    let cskh = settings[0].cskh;
     let level = user[0].level;
-    return res.render("member/index.ejs", { level });
+    return res.render("member/index.ejs", { level, cskh });
 }
-
 const aboutPage = async (req, res) => {
     return res.render("member/about/index.ejs");
 }
@@ -120,32 +149,6 @@ const redenvelopes = async (req, res) => {
 
 const riskAgreement = async (req, res) => {
     return res.render("member/about/riskAgreement.ejs");
-}
-
-const keFuMenu = async (req, res) => {
-    let auth = req.cookies.auth;
-
-    const [users] = await connection.query('SELECT `level`, `ctv` FROM users WHERE token = ?', [auth]);
-
-    let telegram = '';
-    if (users.length == 0) {
-        let [settings] = await connection.query('SELECT `telegram`, `cskh` FROM admin');
-        telegram = settings[0].telegram;
-    } else {
-        if (users[0].level != 0) {
-            var [settings] = await connection.query('SELECT * FROM admin');
-        } else {
-            var [check] = await connection.query('SELECT `telegram` FROM point_list WHERE phone = ?', [users[0].ctv]);
-            if (check.length == 0) {
-                var [settings] = await connection.query('SELECT * FROM admin');
-            } else {
-                var [settings] = await connection.query('SELECT `telegram` FROM point_list WHERE phone = ?', [users[0].ctv]);
-            }
-        }
-        telegram = settings[0].telegram;
-    }
-
-    return res.render("keFuMenu.ejs", { telegram });
 }
 
 const myProfilePage = async (req, res) => {
@@ -183,18 +186,23 @@ const getSalaryRecord = async (req, res) => {
 module.exports = {
     homePage,
     checkInPage,
+    invibonusPage,
+    rebatePage,
+    jackpotPage,
+    vipPage,
+    activityPage,
+    dailytaskPage,
     promotionPage,
+    promotion1Page,
     walletPage,
     mianPage,
     myProfilePage,
     promotionmyTeamPage,
     promotionDesPage,
+    comhistoryPage,
     tutorialPage,
     bonusRecordPage,
-    keFuMenu,
     rechargePage,
-    rechargeGateway,
-    rechargeGateway1,
     rechargerecordPage,
     withdrawalPage,
     withdrawalrecordPage,
@@ -210,4 +218,5 @@ module.exports = {
     transfer,
     recordsalary,
     getSalaryRecord,
+    transactionhistoryPage,
 }
