@@ -1,7 +1,8 @@
 module.exports = {
   apps: [{
     name: "91club",
-    script: "npx babel-node src/server.js",
+    script: "./node_modules/.bin/babel-node",
+    args: "src/server.js",
     instances: 1,
     autorestart: true,
     watch: false,
