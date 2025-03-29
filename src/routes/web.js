@@ -13,7 +13,15 @@ import paymentController from '../controllers/paymentController';
 let router = express.Router();
 
 const initWebRouter = (app) => {
-    // page account
+    if (!app || !app.use) {
+        console.error('Invalid Express app instance provided');
+        return null;
+    }
+    
+    try {
+        router = express.Router();
+
+        // page account
     router.get('/keFuMenu', accountController.keFuMenu);
     router.get('/login', accountController.loginPage);
     router.get('/register', accountController.registerPage);
@@ -243,9 +251,14 @@ const initWebRouter = (app) => {
     router.post('/api/webapi/admin/5d/editResult', adminController.middlewareAdminController, adminController.editResult); // get info account
     router.post('/api/webapi/admin/k3/editResult', adminController.middlewareAdminController, adminController.editResult2); // get info account
 
-    return app.use('/', router);
+        app.use('/', router);
+        return router;
+    } catch (error) {
+        console.error('Error initializing routes:', error);
+        throw error;
+    }
 }
 
 module.exports = {
-    initWebRouter,
+    initWebRouter
 };
