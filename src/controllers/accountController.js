@@ -366,7 +366,7 @@ const keFuMenu = async(req, res) => {
 }
 
 
-module.exports = {
+export default {
     login,
     register,
     loginPage,

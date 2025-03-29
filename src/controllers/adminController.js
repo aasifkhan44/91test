@@ -1972,7 +1972,7 @@ const getSalary = async (req, res) => {
 };
 
 
-module.exports = {
+export default {
     adminPage,
     adminPage3,
     adminPage5,
